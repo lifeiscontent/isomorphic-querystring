@@ -1,0 +1,22 @@
+{
+  "name": "isomorphic-querystring",
+  "version": "1.0.0",
+  "license": "MIT",
+  "description": "isomorphic querystring interface for client & server.",
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "browser.js"
+  ],
+  "repository": "lifeiscontent/isomorphic-querystring",
+  "browser": "browser.js",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "24.8.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
