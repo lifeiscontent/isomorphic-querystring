@@ -33,6 +33,7 @@ describe("querystring", () => {
       )
     );
   });
+
   test("parse", () => {
     const string = querystring.stringify(
       {
@@ -52,5 +53,15 @@ describe("querystring", () => {
     expect(qs.parse(string, "=", "&", { maxKeys: 1 })).toEqual(
       querystring.parse(string, "=", "&", { maxKeys: 1 })
     );
+  });
+
+  test("decode", () => {
+    expect(qs.decode).toEqual(qs.parse);
+    expect(querystring.decode).toEqual(querystring.parse);
+  });
+
+  test("encode", () => {
+    expect(qs.encode).toEqual(qs.stringify);
+    expect(querystring.encode).toEqual(querystring.encode);
   });
 });
