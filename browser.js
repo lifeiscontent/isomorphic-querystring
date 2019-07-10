@@ -47,9 +47,7 @@ function parse(
     }
 
     const char = str[i];
-
     switch (char) {
-      case undefined:
       case eq:
         if (!(decodeURIComponent(key) in result)) {
           result[decodeURIComponent(key)] = undefined;
@@ -57,6 +55,7 @@ function parse(
         parsedKeys += 1;
         keyOrValue = 1;
         break;
+      case undefined:
       case sep:
         if (Array.isArray(result[decodeURIComponent(key)])) {
           // concat array

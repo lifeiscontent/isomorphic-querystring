@@ -53,6 +53,8 @@ describe("querystring", () => {
     expect(qs.parse(string, "=", "&", { maxKeys: 1 })).toEqual(
       querystring.parse(string, "=", "&", { maxKeys: 1 })
     );
+
+    expect(qs.parse("foo=bar")).toEqual(querystring.parse("foo=bar"));
   });
 
   test("decode", () => {
