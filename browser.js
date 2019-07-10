@@ -41,12 +41,15 @@ function parse(
   let parsedKeys = 0;
   let value = "";
 
+  if (str.length === 0) return result;
+
   for (let i = 0; i <= length; i++) {
     if (parsedKeys >= maxKeys) {
       break;
     }
 
     const char = str[i];
+
     switch (char) {
       case eq:
         if (!(decodeURIComponent(key) in result)) {

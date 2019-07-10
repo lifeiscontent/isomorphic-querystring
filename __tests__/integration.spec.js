@@ -55,6 +55,7 @@ describe("querystring", () => {
     );
 
     expect(qs.parse("foo=bar")).toEqual(querystring.parse("foo=bar"));
+    expect(qs.parse("")).toEqual(querystring.parse(""));
   });
 
   test("decode", () => {
