@@ -36,57 +36,61 @@ function parse(
 ) {
   const result = Object.create(null);
   const length = str.length;
+
+  if (length === 0) return result;
+
   let key = "";
-  let keyOrValue = 0;
   let parsedKeys = 0;
+  let state = 0;
   let value = "";
 
-  if (str.length === 0) return result;
-
   for (let i = 0; i <= length; i++) {
-    if (parsedKeys >= maxKeys) {
-      break;
-    }
-
     const char = str[i];
 
-    switch (char) {
-      case eq:
-        if (!(decodeURIComponent(key) in result)) {
-          result[decodeURIComponent(key)] = undefined;
-        }
-        parsedKeys += 1;
-        keyOrValue = 1;
-        break;
-      case undefined:
-      case sep:
-        if (Array.isArray(result[decodeURIComponent(key)])) {
-          // concat array
-          result[decodeURIComponent(key)].concat(decodeURIComponent(value));
-        } else if (result[decodeURIComponent(key)] !== undefined) {
-          // turn into array
-          result[decodeURIComponent(key)] = [
-            result[decodeURIComponent(key)]
-          ].concat(decodeURIComponent(value));
-        } else {
-          // set value
-          result[decodeURIComponent(key)] = decodeURIComponent(value);
-        }
+    if (char === undefined) {
+      state = 2;
+    }
 
-        key = "";
-        value = "";
-        keyOrValue = 0;
+    switch (state) {
+      case 0:
+        if (char !== eq) {
+          key += char;
+        } else {
+          if (!(decodeURIComponent(key) in result)) {
+            result[decodeURIComponent(key)] = undefined;
+          }
+          state = 1;
+          parsedKeys += 1;
+        }
         break;
-      default:
-        if (keyOrValue === 1) {
+      case 1:
+      case 2:
+        if (char !== sep && char !== undefined) {
           value += char;
         } else {
-          key += char;
+          if (Array.isArray(result[decodeURIComponent(key)])) {
+            // concat array
+            result[decodeURIComponent(key)].concat(decodeURIComponent(value));
+          } else if (result[decodeURIComponent(key)] !== undefined) {
+            // turn into array
+            result[decodeURIComponent(key)] = [
+              result[decodeURIComponent(key)]
+            ].concat(decodeURIComponent(value));
+          } else {
+            // set value
+            result[decodeURIComponent(key)] = decodeURIComponent(value);
+          }
+          key = "";
+          value = "";
+          state = 0;
         }
         break;
     }
-  }
 
+    if (maxKeys !== 0 && parsedKeys > maxKeys) {
+      break;
+    }
+  }
   return result;
 }
 

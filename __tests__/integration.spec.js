@@ -1,70 +1,162 @@
 const querystring = require("../");
 const qs = require("../browser");
+const cases = require("jest-in-case");
 
 describe("querystring", () => {
-  test("stringify", () => {
-    expect(
-      qs.stringify(
-        {
-          "foo bar bazer": 1,
-          bar: "wow wow wow",
-          wat: Symbol("bar"),
-          big: BigInt(9007199254740991),
-          quz: true,
-          things: ["", "", ""],
-          baz: { foo: false, bar: false }
-        },
-        "&",
-        "="
-      )
-    ).toEqual(
-      querystring.stringify(
-        {
-          "foo bar bazer": 1,
-          bar: "wow wow wow",
-          wat: Symbol("bar"),
-          big: BigInt(9007199254740991),
-          quz: true,
-          things: ["", "", ""],
-          baz: { foo: false, bar: false }
-        },
-        "&",
-        "="
-      )
-    );
-  });
-
-  test("parse", () => {
-    const string = querystring.stringify(
+  cases(
+    "stringify(obj, sep, eq, options)",
+    ({ obj, sep, eq, options }) => {
+      expect(qs.stringify(obj, sep, eq, options)).toEqual(
+        querystring.stringify(obj, sep, eq, options)
+      );
+    },
+    [
+      { name: "Zero", obj: {}, sep: "&", eq: "=", options: undefined },
+      { name: "One", obj: { one: 1 }, sep: "&", eq: "=", options: undefined },
       {
-        "foo bar bazer": 1,
-        bar: "wow wow wow",
-        bar: "what what what",
-        wat: Symbol("bar"),
-        big: BigInt(9007199254740991),
-        quz: true,
-        things: ["stuff", "buzz"],
-        baz: { foo: false, bar: false }
+        name: "Many",
+        obj: { one: 1, two: 2 },
+        sep: "&",
+        eq: "=",
+        options: undefined
       },
-      "&",
-      "="
-    );
+      {
+        name: "Types",
+        obj: {
+          array: ["one", "two"],
+          bigInt: BigInt(9007199254740991),
+          boolean: true,
+          null: null,
+          object: { one: 1, two: 2 },
+          string: "string",
+          symbol: Symbol("symbol"),
+          undefined: undefined
+        },
+        sep: "&",
+        eq: "=",
+        options: undefined
+      },
+      {
+        name: "Quirks",
+        obj: {
+          array: ["one", "two"],
+          bigInt: BigInt(9007199254740991),
+          boolean: true,
+          null: null,
+          object: { one: 1, two: 2 },
+          string: "string",
+          symbol: Symbol("symbol"),
+          undefined: undefined
+        },
+        sep: "=",
+        eq: "&",
+        options: undefined
+      }
+    ]
+  );
 
-    expect(qs.parse(string, "=", "&", { maxKeys: 1 })).toEqual(
-      querystring.parse(string, "=", "&", { maxKeys: 1 })
-    );
+  cases(
+    "parse(str, sep, eq, options)",
+    ({ str, sep, eq, options }) => {
+      expect(qs.parse(str, sep, eq, options)).toEqual(
+        querystring.parse(str, sep, eq, options)
+      );
+    },
+    [
+      { name: "Zero", str: "", sep: "&", eq: "=", options: undefined },
+      {
+        name: "One",
+        str: querystring.stringify({ one: 1 }),
+        sep: "&",
+        eq: "=",
+        options: undefined
+      },
+      {
+        name: "Many",
+        str: querystring.stringify({ one: 1, two: 2 }),
+        sep: "&",
+        eq: "=",
+        options: undefined
+      },
+      {
+        name: "Zero maxKeys",
+        str: querystring.stringify({ one: 1, two: 2 }),
+        sep: "&",
+        eq: "=",
+        options: { maxKeys: 0 }
+      },
+      {
+        name: "1 maxKeys",
+        str: querystring.stringify({ one: 1, two: 2 }),
+        sep: "&",
+        eq: "=",
+        options: { maxKeys: 1 }
+      },
+      {
+        name: "2 maxKeys",
+        str: querystring.stringify({ one: 1, two: 2 }),
+        sep: "&",
+        eq: "=",
+        options: { maxKeys: 2 }
+      },
+      {
+        name: "Types",
+        str: querystring.stringify({
+          array: ["one", "two"],
+          bigInt: BigInt(9007199254740991),
+          boolean: true,
+          null: null,
+          object: { one: 1, two: 2 },
+          string: "string",
+          symbol: Symbol("symbol"),
+          undefined: undefined
+        }),
+        sep: "&",
+        eq: "=",
+        options: undefined
+      },
+      {
+        name: "Quirks",
+        str: querystring.stringify(
+          {
+            array: ["one", "two"],
+            bigInt: BigInt(9007199254740991),
+            boolean: true,
+            null: null,
+            object: { one: 1, two: 2 },
+            string: "string",
+            symbol: Symbol("symbol"),
+            undefined: undefined
+          },
+          "=",
+          "&"
+        ),
+        sep: "=",
+        eq: "&",
+        options: undefined
+      },
+      {
+        name: "Junk",
+        str:
+          "asdgokaspgkasdgok235235ok2etdsbo0-===-235=-235=-sdfg=2345&7=-235=0-7=&34=",
+        sep: "&",
+        eq: "=",
+        options: undefined
+      }
+    ]
+  );
 
-    expect(qs.parse("foo=bar")).toEqual(querystring.parse("foo=bar"));
-    expect(qs.parse("")).toEqual(querystring.parse(""));
+  describe("decode", () => {
+    it("is an alias to parse", () => {
+      expect(qs.decode).toEqual(qs.parse);
+      expect(querystring.decode).toEqual(querystring.parse);
+    });
   });
 
-  test("decode", () => {
-    expect(qs.decode).toEqual(qs.parse);
-    expect(querystring.decode).toEqual(querystring.parse);
-  });
-
-  test("encode", () => {
-    expect(qs.encode).toEqual(qs.stringify);
-    expect(querystring.encode).toEqual(querystring.encode);
+  describe("encode", () => {
+    it("is an alias to stringify", () => {
+      expect(qs.encode).toEqual(qs.stringify);
+      expect(querystring.encode).toEqual(querystring.encode);
+    });
   });
 });
