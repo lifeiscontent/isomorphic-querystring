@@ -1,5 +1,5 @@
-const querystring = require("../");
-const qs = require("../browser");
+const querystring = require("../src");
+const qs = require("../src/browser");
 const cases = require("jest-in-case");
 
 describe("querystring", () => {
