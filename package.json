@@ -16,7 +16,7 @@
     "@babel/cli": "7.5.5",
     "@babel/core": "7.5.5",
     "@babel/preset-env": "7.5.5",
-    "jest": "24.8.0",
+    "jest": "24.9.0",
     "jest-in-case": "1.0.2",
     "semantic-release": "^15.13.24"
   },
