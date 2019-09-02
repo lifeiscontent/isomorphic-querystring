@@ -1,6 +1,6 @@
 {
   "name": "isomorphic-querystring",
-  "version": "1.2.3",
+  "version": "0.0.0-development",
   "license": "MIT",
   "description": "isomorphic querystring interface for client & server.",
   "files": [
@@ -17,13 +17,15 @@
     "@babel/core": "7.5.5",
     "@babel/preset-env": "7.5.5",
     "jest": "24.8.0",
-    "jest-in-case": "1.0.2"
+    "jest-in-case": "1.0.2",
+    "semantic-release": "^15.13.24"
   },
   "resolutions": {
     "lodash": "4.17.13"
   },
   "scripts": {
     "test": "jest",
-    "build": "babel src -d lib"
+    "build": "babel src -d lib",
+    "semantic-release": "semantic-release"
   }
 }
