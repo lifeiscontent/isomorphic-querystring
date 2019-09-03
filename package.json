@@ -22,6 +22,9 @@
     "jest-in-case": "1.0.2",
     "semantic-release": "^15.13.24"
   },
+  "resolutions": {
+    "mem": "^4.0.0"
+  },
   "scripts": {
     "test": "jest",
     "build": "babel src -d lib",
