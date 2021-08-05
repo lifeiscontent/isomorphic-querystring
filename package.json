@@ -14,7 +14,7 @@
   "types": "index.d.ts",
   "devDependencies": {
     "@babel/cli": "7.13.16",
-    "@babel/core": "7.14.0",
+    "@babel/core": "7.15.0",
     "@babel/preset-env": "7.14.1",
     "commitizen": "4.2.3",
     "cz-conventional-changelog": "3.3.0",
