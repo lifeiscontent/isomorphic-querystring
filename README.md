@@ -1,5 +1,9 @@
 # isomorphic-querystring
 
+## Deprecated
+
+Deprecated in favor of using https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams which is now supported across Node and Browsers.
+
 [![master branch](https://img.shields.io/travis/lifeiscontent/isomorphic-querystring?label=travis-ci)](https://travis-ci.org/lifeiscontent/isomorphic-querystring)
 [![david](https://img.shields.io/david/lifeiscontent/isomorphic-querystring)](https://david-dm.org/lifeiscontent/isomorphic-querystring)
 [![npm](https://img.shields.io/npm/v/isomorphic-querystring)](https://www.npmjs.com/package/isomorphic-querystring)
